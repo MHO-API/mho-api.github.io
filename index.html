@@ -1,118 +1,181 @@
-!function ($) {
-    $(function () {
-        var j = false;
-        $('#navbar-main li a, .navbar-header a').click(function () {
-            var a = $(this);
-            if (a.attr('href') == '#top') {
-                $('html,body').animate({ 'scrollTop': 0 }, 1000);
-            }
-            else {
-                var b = $(a.attr('href'));
-                $('html,body').animate({ 'scrollTop': b.offset().top - 50 }, 1000);
-            }
-            return false
-        });
-        $('#t').keyup(function () {
-            if (event.keyCode == 13) {
-                $('#search-by-title-button').click();
-            } else {
-                return false
-            }
-        });
-        $('#i').keyup(function () {
-            if (event.keyCode == 13) {
-                $('#search-by-id-button').click();
-            } else {
-                return false
-            }
-        });
-        $('#search-by-id-button').click(function () {
-            var c = $("#search-by-id-form :input").filter(function (index, element) {
-                return $(element).val() != "";
-            }).serialize();
-            var d = 'https://mho-movie-api.herokuapp.com/api/poster/' + c;
-            var e = $('#search-by-id-request');
-            e.find('a').attr('href', d).html(d);
-            e.show('slow');
-            var f = $('#search-by-id-progress');
-            f.show('slow');
-            var g = $('#search-by-id-response');
-            var t = $('input:hidden[name=g-recaptcha-response]').val();
-            $.ajax({
-                type: 'GET',
-                dataType: 'text',
-                url: 'demo.aspx/?' + c + '&token=' + t,
-                statusCode: {
-                    403: function () {
-                        g.find('pre').html('HTTP 403 Forbidden!')
-                    }
-                },
-                success: function (a) {
-                    g.find('pre').html(a.replace(/</g, '&lt;').replace(/>/g, '&gt;'))
-                },
-                complete: function () {
-                    f.hide();
-                    g.show('slow')
-                }
-            })
-            /* update token after use */
-            grecaptcha.execute('6LfWPbsUAAAAALssRfr3Lhv9PdEEOAQXGdZohXbP', { action: 'homepage' }).then(function (token) {
-                $('input:hidden[name=g-recaptcha-response]').val(token);
-            });
-        });
-        $('#search-by-id-reset').click(function () {
-            var a = $('#search-by-id-request');
-            a.hide('slow');
-            a.find('a').attr('href', 'javascript:;').html('');
-            var b = $('#search-by-id-progress');
-            b.hide('slow');
-            var c = $('#search-by-id-response');
-            c.hide('slow');
-            c.find('pre').html('');
-        });
-        $('#search-by-title-button').click(function () {
-            var c = $("#search-by-title-form :input").filter(function (index, element) {
-                return $(element).val() != "";
-            }).serialize();
-            var d = 'https://mho-movie-api.herokuapp.com/api/movie/' + c;
-            var e = $('#search-by-title-request');
-            e.find('a').attr('href', d).html(d);
-            e.show('slow');
-            var f = $('#search-by-title-progress');
-            f.show('slow');
-            var g = $('#search-by-title-response');
-            var t = $('input:hidden[name=g-recaptcha-response]').val();
-            $.ajax({
-                type: 'GET',
-                dataType: 'text',
-                url: 'demo.aspx/?' + c + '',
-                statusCode: {
-                    403: function () {
-                        g.find('pre').html('HTTP 403 Forbidden!')
-                    }
-                },
-                success: function (a) {
-                    g.find('pre').html(a.replace(/</g, '&lt;').replace(/>/g, '&gt;'))
-                },
-                complete: function () {
-                    f.hide();
-                    g.show('slow')
-                }
-            })
-            /* update token after use */
-            grecaptcha.execute('6LfWPbsUAAAAALssRfr3Lhv9PdEEOAQXGdZohXbP', { action: 'homepage' }).then(function (token) {
-                $('input:hidden[name=g-recaptcha-response]').val(token);
-            });
-        });
-        $('#search-by-title-reset').click(function () {
-            var a = $('#search-by-title-request');
-            a.hide('slow');
-            a.find('a').attr('href', 'javascript:;').html('');
-            var b = $('#search-by-title-progress');
-            b.hide('slow');
-            var c = $('#search-by-title-response');
-            c.hide('slow');
-            c.find('pre').html('');
-        });
-    })
-} (window.jQuery);
+<html lang="en"><head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta charset="utf-8">
+    <title>MHO Movie DB - Movie Hub Offical Movie Database</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="icon" type="image/vnd.microsoft.icon" href="favicon.ico">
+    <link rel="stylesheet" href="./src/style.css" media="screen">
+    <link rel="stylesheet" href="./src/bootswatch.min.css">
+    <script type="text/javascript" async="" src="https://www.gstatic.com/recaptcha/releases/kcXVPRWG7fMILHmzon0--fD3/recaptcha__en.js" crossorigin="anonymous" integrity="sha384-9ah7W73C/cOhQyUXG801ICjOv2nqRu6Hzv+2XEu2HbUGxrKtThNV8wr0fzIArgUy"></script><script async="" src="https://www.google-analytics.com/analytics.js"></script><script type="text/javascript" src="./src/jquery-1.10.2.min.js"></script>
+    <script type="text/javascript" src="./src/bootstrap.min.js"></script>
+    <script type="text/javascript" src="./src/application.js"></script>
+    <script>
+        (function (i, s, o, g, r, a, m) {
+            i['GoogleAnalyticsObject'] = r; i[r] = i[r] || function () {
+                (i[r].q = i[r].q || []).push(arguments)
+            }, i[r].l = 1 * new Date(); a = s.createElement(o),
+        m = s.getElementsByTagName(o)[0]; a.async = 1; a.src = g; m.parentNode.insertBefore(a, m)
+        })(window, document, 'script', 'https://www.google-analytics.com/analytics.js', 'ga');
+
+        ga('create', 'UA-91042892-1', 'auto');
+        ga('send', 'pageview');
+    </script>
+</head>
+<body style="">
+    <div class="navbar navbar-default navbar-fixed-top">
+        <div class="container">
+            <div class="navbar-header">
+                <a href="#top" class="navbar-brand">MHO API</a>
+                <button class="navbar-toggle" type="button" data-toggle="collapse" data-target="#navbar-main">
+                    <span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar">
+                    </span>
+                </button>
+            </div>
+            <div class="navbar-collapse collapse" id="navbar-main">
+                <ul class="nav navbar-nav">
+                    <li><a href="#usage">Usage</a></li>
+                    <li><a href="#examples">Examples</a></li>
+                </ul>
+                <ul class="nav navbar-nav navbar-right">
+                    <li style="background: #0df346c7;"><a href="https:/t.me/MaX_Bots" target="_blank">support</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="container">
+        <div class="page-header" id="banner">
+            <div class="row">
+                <div class="col-lg-6">
+                    <h1>MHO API</h1>
+                    <p class="lead">MHO Movie DB - Movie Hub Offical Movie Database</p>
+                    <p>MHO API is a RESTful web service to obtain movie information, this api is made using OMDB API. This service is free. The language used to create this API is Node JS.
+                </div>
+                <div class="col-lg-6">
+                    <div class="well sponsor">
+                        <span style="float: left; margin-right: 15px;"><img src="./src/poster.jpg" width="170" height="250"></span>
+                        <h4 style="margin-bottom: 0.4em;">Poster API</h4>
+                        <div class="clearfix">
+                        <p>You can get the IMDB movie poster from here <br><br>
+                        This poster API is based on OMDB
+                        </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        <!-- Usage -->
+        <div class="bs-docs-section" id="usage">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="page-header">
+                        <h1>Usage</h1>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="bs-component">
+                        <p>gets movie info :</p>
+                        <pre>https://mho-movie-api.herokuapp.com/api/movie/[title of film]</pre>
+                        <br>
+                        <p>gets movie poster :</p>
+                        <pre>https://mho-movie-api.herokuapp.com/api/poster/[imdb id for film]</pre>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Examples -->
+        <div class="bs-docs-section" id="examples">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="page-header">
+                        <h1>Examples</h1>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="bs-component">
+                        <form class="well form-search" id="search-by-title-form" onsubmit="return false;">
+                        <fieldset>
+                            <legend>By Title</legend>
+                        </fieldset>
+                        <div>
+                            <label class="control-label" for="t">Title:</label>
+                            <input type="text" id="t" name="t" class="input-small">
+                            &nbsp;&nbsp;
+                            <label class="control-label" for="y">Year:</label>
+                            <input type="text" id="y" name="y" class="input-small" style="width: 100px;">
+                            &nbsp;&nbsp;
+                            </select>
+                            &nbsp;&nbsp;
+                            </select>
+                            &nbsp;&nbsp;
+                            <button id="search-by-title-button" type="button" class="btn-sm btn-primary">Search</button>
+                            <button id="search-by-title-reset" type="reset" class="btn-sm">Reset</button>
+                        </div>
+                        <div class="hide" id="search-by-title-request">
+                            <br>
+                            <p>Example : </p>
+                            <pre class="alert alert-box"><a href="javascript:;" target="_blank"></a></pre>
+                        </div>
+                        <div id="search-by-title-progress" class="hide progress progress-info progress-striped active">
+                            <div class="progress-bar" style="width: 100%;">
+                            </div>
+                        </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="bs-component">
+                        <form class="well form-search" id="search-by-id-form" onsubmit="return false;">
+                        <fieldset>
+                            <legend>By ID</legend>
+                        </fieldset>
+                        <div>
+                            <label class="control-label" for="i">ID:</label>
+                            <input type="text" id="i" name="i" class="input-small" placeholder="IMDb ID">
+                            &nbsp;&nbsp;
+                            </select>
+                            &nbsp;&nbsp;
+                            <label class="control-label">Response:</label>
+                            <select name="r" style="width: 100px;">
+                                <option value="">JSON</option>
+                                <option value="xml">XML</option>
+                            </select>
+                            &nbsp;&nbsp;
+                            <button id="search-by-id-button" type="button" class="btn-sm btn-primary">Search</button>
+                            <button id="search-by-id-reset" type="reset" class="btn-sm">Reset</button>
+                        </div>
+                        <div class="hide" id="search-by-id-request" style="display: block;">
+                            <br>
+                            <p>Request:</p>
+                            <pre class="alert alert-box"><a href="javascript:;" target="_blank"></a></pre>
+                        </div>
+                        <div id="search-by-id-progress" class="hide progress progress-info progress-striped active" style="display: none;">
+                            <div class="progress-bar" style="width: 100%;">
+                            </div>
+                        </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <footer>
+        <div class="row">
+          <div class="col-lg-12">
+            <ul class="list-unstyled">
+              <li class="pull-right"><a href="#top">Back to top</a></li>
+              <li><a href="https://github.com/SenuGamerBoy" target="_blank">Donate</a></li>
+            </ul>
+            <p>API by <a href="https://github.com/SenuGamerBoy">Senu Gamer Boy</a>.</p>
+            <p>This site is not endorsed by or affiliated with <a href="http://www.imdb.com/" target="_blank">IMDb.com</a>.</p><br>
+          </div>
+        </div>
+      <input type="hidden" name="g-recaptcha-response" value="03AGdBq25azNdPHXUa_-QleFnVHQvScUfxMZRYKkBeGpgmeymkv-VnAccnC6pNWQs8wEvBgWFOuB4XKqEWzb1GM4XYZdWOZd7oT-rie5KKUgHsXG0WYYwVQVG5ZRg0xI2B5ggLMtJwwtliAZwtXa_1CTm3qVJFuESqupxw28gDoFH66_ziv9_xU2Vkx25XWHB19jCDEPN41sMuKCf0NRb5G5kv5NqodzRW6AqdOOAi2W-3NpbCH93dCFMs2QQ-g25RAG1YXnwLZjvkyTOhYH4_q-njXKLvQx1lBnjs4tle8jOXpe-7Wz7D3b77XetN6beluC9-1tHKIg1UnDQDifxvQd0ZcNMEZpY9CdaVYA2ZfwbnHOUOdeI28TvgBu6lrCy43VNS8naqe5oO-paAj0h6uBr4y2qAkoXTZUMzHasxXn4DueMJ8GM9gPikYPf5CyPkJq0fM-mSAAfT"></footer>
+    </div>
+
+
+</div></body></html>
