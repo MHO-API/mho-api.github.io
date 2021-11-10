@@ -4,3 +4,6 @@
 
 
 ## MHO API is a RESTful web service to obtain movie information, this api is made using OMDB API. This service is free. The language used to create this API is Node JS.
+
+
+<p>API by <a href="https://github.com/SenuGamerBoy">Senu Gamer Boy</a>.</p>
